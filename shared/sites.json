@@ -1,0 +1,61 @@
+{
+  "sites": [
+    {
+      "id": "koti",
+      "name": "Koti",
+      "plan": {
+        "width": 12,
+        "height": 17,
+        "rooms": [
+          { "id": "at", "code": "AT", "name": "Autotalli", "x": 0, "y": 0, "w": 5, "h": 5 },
+          { "id": "et", "code": "ET", "name": "Eteinen", "x": 5, "y": 0, "w": 3, "h": 5 },
+          { "id": "khh", "code": "KHH", "name": "Kodinhoitohuone", "x": 8, "y": 0, "w": 4, "h": 3 },
+          { "id": "wc", "code": "WC", "name": "WC", "x": 8, "y": 3, "w": 4, "h": 2 },
+          { "id": "k", "code": "K", "name": "Keittiö", "x": 0, "y": 5, "w": 5, "h": 6 },
+          { "id": "oh", "code": "OH", "name": "Olohuone", "x": 5, "y": 5, "w": 7, "h": 6 },
+          { "id": "mh", "code": "MH", "name": "Makuuhuone", "x": 0, "y": 11, "w": 4, "h": 6 },
+          { "id": "kph", "code": "KPH", "name": "Kylpyhuone", "x": 4, "y": 11, "w": 3, "h": 3 },
+          { "id": "s", "code": "S", "name": "Sauna", "x": 4, "y": 14, "w": 3, "h": 3 },
+          { "id": "th", "code": "TH", "name": "Työhuone", "x": 7, "y": 11, "w": 5, "h": 6 }
+        ]
+      },
+      "devices": [
+        { "id": "koti-liesi", "type": "stove", "name": "Liesi", "roomId": "k", "x": 1.9, "y": 5.7 },
+        { "id": "koti-tiskikone-hana", "type": "water_valve", "name": "Tiskikoneen hana", "roomId": "k", "x": 3.4, "y": 5.7 },
+        { "id": "koti-jaakaappi", "type": "fridge_door", "name": "Jääkaapin ovi", "roomId": "k", "x": 0.6, "y": 6.4 },
+        { "id": "koti-kahvinkeitin", "type": "coffee_maker", "name": "Kahvinkeitin", "roomId": "k", "x": 0.6, "y": 8.2 },
+        { "id": "koti-pesukone-hana", "type": "water_valve", "name": "Pesukoneen hana", "roomId": "khh", "x": 10, "y": 1.5 },
+        { "id": "koti-kiuas", "type": "sauna_heater", "name": "Kiuas", "roomId": "s", "x": 5.5, "y": 16 },
+        { "id": "koti-ulko-ovi", "type": "door_lock", "name": "Ulko-ovi", "roomId": "et", "x": 6.5, "y": 0.6 },
+        { "id": "koti-terassin-ovi", "type": "door_lock", "name": "Terassin ovi", "roomId": "oh", "x": 11.4, "y": 8 },
+        { "id": "koti-autotallin-ovi", "type": "garage_door", "name": "Autotallin ovi", "roomId": "at", "x": 2.5, "y": 0.6 },
+        { "id": "koti-valo-et", "type": "light", "name": "Eteisen valot", "roomId": "et", "x": 6.5, "y": 3 },
+        { "id": "koti-valo-k", "type": "light", "name": "Keittiön valot", "roomId": "k", "x": 2.6, "y": 8.8 },
+        { "id": "koti-valo-oh", "type": "light", "name": "Olohuoneen valot", "roomId": "oh", "x": 8.5, "y": 8 },
+        { "id": "koti-valo-mh", "type": "light", "name": "Makuuhuoneen valot", "roomId": "mh", "x": 2, "y": 14 }
+      ]
+    },
+    {
+      "id": "mokki",
+      "name": "Mökki",
+      "plan": {
+        "width": 8,
+        "height": 9,
+        "rooms": [
+          { "id": "tupa", "code": "TUPA", "name": "Tupakeittiö", "x": 0, "y": 0, "w": 5, "h": 5 },
+          { "id": "mh", "code": "MH", "name": "Makuuhuone", "x": 5, "y": 0, "w": 3, "h": 5 },
+          { "id": "et", "code": "ET", "name": "Eteinen", "x": 0, "y": 5, "w": 3, "h": 4 },
+          { "id": "ph", "code": "PH", "name": "Pesuhuone", "x": 3, "y": 5, "w": 2, "h": 4 },
+          { "id": "s", "code": "S", "name": "Sauna", "x": 5, "y": 5, "w": 3, "h": 4 }
+        ]
+      },
+      "devices": [
+        { "id": "mokki-liesi", "type": "stove", "name": "Liesi", "roomId": "tupa", "x": 1.4, "y": 1.1 },
+        { "id": "mokki-kiuas", "type": "sauna_heater", "name": "Kiuas", "roomId": "s", "x": 7, "y": 8 },
+        { "id": "mokki-pumppu", "type": "water_pump", "name": "Vesipumppu", "roomId": "ph", "x": 4, "y": 8 },
+        { "id": "mokki-ulko-ovi", "type": "door_lock", "name": "Ulko-ovi", "roomId": "et", "x": 1.5, "y": 8.4 },
+        { "id": "mokki-valo-tupa", "type": "light", "name": "Tuvan valot", "roomId": "tupa", "x": 2.5, "y": 2.5 }
+      ]
+    }
+  ]
+}

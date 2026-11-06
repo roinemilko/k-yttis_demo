@@ -1,0 +1,108 @@
+{
+  "categories": [
+    { "id": "appliances", "name": "Kodinkoneet" },
+    { "id": "doors", "name": "Ovet ja lukot" },
+    { "id": "lights", "name": "Valot" }
+  ],
+  "types": {
+    "stove": {
+      "name": "Liesi",
+      "category": "appliances",
+      "risk": "fire",
+      "severity": "high",
+      "states": { "off": "Pois päältä", "on": "Päällä" },
+      "safeState": "off",
+      "control": "safe_only",
+      "actions": { "off": "Sammuta" },
+      "icon": "stove"
+    },
+    "sauna_heater": {
+      "name": "Kiuas",
+      "category": "appliances",
+      "risk": "fire",
+      "severity": "high",
+      "states": { "off": "Pois päältä", "on": "Päällä" },
+      "safeState": "off",
+      "control": "safe_only",
+      "actions": { "off": "Sammuta" },
+      "icon": "fire"
+    },
+    "coffee_maker": {
+      "name": "Kahvinkeitin",
+      "category": "appliances",
+      "risk": "fire",
+      "severity": "high",
+      "states": { "off": "Pois päältä", "on": "Päällä" },
+      "safeState": "off",
+      "control": "safe_only",
+      "actions": { "off": "Sammuta" },
+      "icon": "coffee-maker"
+    },
+    "water_valve": {
+      "name": "Vesihana",
+      "category": "appliances",
+      "risk": "water",
+      "severity": "high",
+      "states": { "closed": "Kiinni", "open": "Auki" },
+      "safeState": "closed",
+      "control": "safe_only",
+      "actions": { "closed": "Sulje hana" },
+      "icon": "faucet"
+    },
+    "water_pump": {
+      "name": "Vesipumppu",
+      "category": "appliances",
+      "risk": "water",
+      "severity": "high",
+      "states": { "off": "Pois päältä", "on": "Päällä" },
+      "safeState": "off",
+      "control": "safe_only",
+      "actions": { "off": "Sammuta" },
+      "icon": "water-pump"
+    },
+    "fridge_door": {
+      "name": "Jääkaapin ovi",
+      "category": "appliances",
+      "risk": "food",
+      "severity": "medium",
+      "states": { "closed": "Kiinni", "open": "Auki" },
+      "safeState": "closed",
+      "control": "none",
+      "actions": {},
+      "icon": "fridge-outline"
+    },
+    "door_lock": {
+      "name": "Ovi",
+      "category": "doors",
+      "risk": "security",
+      "severity": "medium",
+      "states": { "locked": "Lukossa", "unlocked": "Lukitsematta" },
+      "safeState": "locked",
+      "control": "both",
+      "actions": { "locked": "Lukitse", "unlocked": "Avaa lukitus" },
+      "icon": "lock"
+    },
+    "garage_door": {
+      "name": "Autotallin ovi",
+      "category": "doors",
+      "risk": "security",
+      "severity": "medium",
+      "states": { "closed": "Kiinni", "open": "Auki" },
+      "safeState": "closed",
+      "control": "safe_only",
+      "actions": { "closed": "Sulje" },
+      "icon": "garage"
+    },
+    "light": {
+      "name": "Valo",
+      "category": "lights",
+      "risk": "energy",
+      "severity": "low",
+      "states": { "off": "Pois päältä", "on": "Päällä" },
+      "safeState": "off",
+      "control": "both",
+      "actions": { "off": "Sammuta", "on": "Sytytä" },
+      "icon": "lightbulb"
+    }
+  }
+}

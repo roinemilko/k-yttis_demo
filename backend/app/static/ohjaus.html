@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Testinohjaus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F2F4F3; --surface: #FBFCFB; --ink: #1F2A2E; --ink-soft: #4F5D63; --muted: #6E7B80;
+    --line: #D5DCDB; --line-strong: #9EABAD; --signal: #BF3528; --signal-tint: #F8E2DE;
+    --glow-tint: #FAEECB; --glow-ink: #6E4F00; --ok: #2B6B55;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #121718; --surface: #1A2123; --ink: #E4EBEA; --ink-soft: #AAB6B8; --muted: #7F8D91;
+      --line: #2A3437; --line-strong: #52616A; --signal: #FF7B6B; --signal-tint: #3A1F1B;
+      --glow-tint: #352B12; --glow-ink: #F2D07A; --ok: #76C7A8;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font: 16px/1.45 "Atkinson Hyperlegible Next", system-ui, sans-serif;
+  }
+  button, input { font: inherit; color: inherit; }
+  :focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+  header {
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    padding: 20px 28px; border-bottom: 1px solid var(--line);
+  }
+  h1 { font-size: 24px; margin: 0; flex: 1; }
+  h2 { font-size: 17px; margin: 0 0 12px; }
+  .conn { display: flex; align-items: center; gap: 8px; color: var(--ink-soft); font-size: 14px; }
+  .conn i { width: 10px; height: 10px; border-radius: 50%; background: var(--ok); }
+  .conn.down i { background: var(--signal); }
+  .conn.down { color: var(--signal); }
+  main {
+    display: grid; grid-template-columns: minmax(260px, 320px) minmax(0, 1fr) minmax(260px, 340px);
+    gap: 0; min-height: calc(100dvh - 77px);
+  }
+  main > section { padding: 24px 28px; border-right: 1px solid var(--line); }
+  main > section:last-child { border-right: none; }
+  @media (max-width: 1100px) {
+    main { grid-template-columns: 1fr 1fr; }
+    #log { grid-column: 1 / -1; border-top: 1px solid var(--line); }
+  }
+  @media (max-width: 700px) {
+    header, main > section { padding-left: 16px; padding-right: 16px; }
+    main { grid-template-columns: 1fr; }
+    main > section { border-right: none; border-bottom: 1px solid var(--line); }
+  }
+  .pill {
+    border: 1px solid var(--line-strong); background: transparent; border-radius: 999px;
+    min-height: 40px; padding: 6px 16px; cursor: pointer; white-space: nowrap;
+  }
+  .pill:hover { background: var(--line); }
+  .pill:active { transform: scale(0.98); }
+  .pill.on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .pill.alert.on { background: var(--signal); border-color: var(--signal); color: var(--surface); }
+  .seg { display: flex; border: 1px solid var(--line-strong); border-radius: 999px; padding: 3px; gap: 2px; }
+  .seg .pill { border: none; flex: 1; min-height: 36px; }
+  .field { margin-bottom: 22px; }
+  .field > span { display: block; font-weight: 500; margin-bottom: 8px; }
+  .hint { color: var(--ink-soft); font-size: 14px; margin: 6px 0 0; }
+  .switch { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+  .switch input { position: absolute; opacity: 0; }
+  .switch .track {
+    width: 52px; height: 30px; border-radius: 15px; background: var(--line-strong); position: relative; flex: none;
+    transition: background 0.15s;
+  }
+  .switch .track::after {
+    content: ""; position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: 50%;
+    background: var(--surface); transition: transform 0.15s;
+  }
+  .switch input:checked + .track { background: var(--ink); }
+  .switch input:checked + .track::after { transform: translateX(22px); }
+  .switch input:focus-visible + .track { outline: 3px solid var(--ink); outline-offset: 2px; }
+  .scenario {
+    display: block; width: 100%; text-align: left; background: transparent; border: none;
+    border-bottom: 1px solid var(--line); padding: 12px 4px; cursor: pointer;
+  }
+  .scenario:hover { background: var(--line); }
+  .scenario b { display: block; font-weight: 500; }
+  .scenario small { color: var(--ink-soft); font-size: 14px; }
+  .scenario.on b::before { content: "\25CF  "; color: var(--ink); }
+  .status { font-size: 22px; font-weight: 700; margin: 0 0 4px; }
+  .status.attention { color: var(--signal); }
+  .toolbar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 12px 0 18px; }
+  .toolbar label { display: flex; align-items: center; gap: 8px; color: var(--ink-soft); font-size: 14px; }
+  .toolbar input {
+    width: 72px; min-height: 36px; padding: 4px 10px; border: 1px solid var(--line-strong);
+    border-radius: 999px; background: var(--surface);
+  }
+  .group-title { color: var(--muted); font-size: 14px; margin: 18px 0 2px; }
+  .device {
+    display: grid; grid-template-columns: minmax(140px, 1fr) auto; gap: 8px 16px; align-items: center;
+    padding: 10px 0; border-bottom: 1px solid var(--line);
+  }
+  .device .name { font-weight: 500; }
+  .device .meta { color: var(--ink-soft); font-size: 14px; }
+  .device.alert .meta { color: var(--signal); }
+  .device.glow .name::after {
+    content: "valo päällä"; margin-left: 8px; font-size: 13px; font-weight: 400; padding: 2px 8px;
+    border-radius: 999px; background: var(--glow-tint); color: var(--glow-ink);
+  }
+  .states { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+  .states .pill { min-height: 34px; padding: 4px 12px; font-size: 14px; }
+  #events { list-style: none; margin: 0; padding: 0; font-size: 14px; }
+  #events li { display: grid; grid-template-columns: 64px 1fr; gap: 4px 10px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+  #events time { color: var(--muted); font-variant-numeric: tabular-nums; }
+  #events .src { color: var(--ink-soft); }
+  #events .app .src { color: var(--ink); font-weight: 500; }
+  .error { color: var(--signal); min-height: 1.4em; margin: 0; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Testinohjaus</h1>
+  <span class="conn" id="conn"><i></i><span>Yhdistetään</span></span>
+  <button class="pill" id="reset">Nollaa testi</button>
+</header>
+<main>
+  <section>
+    <h2>Asetukset</h2>
+    <div class="field">
+      <label class="switch">
+        <input type="checkbox" id="controls">
+        <span class="track"></span>
+        <span><b style="font-weight:500">Laitteiden ohjaus</b><br><small class="hint" id="controls-hint"></small></span>
+      </label>
+    </div>
+    <div class="field">
+      <span>Aloitusnäkymä</span>
+      <div class="seg" id="view"></div>
+    </div>
+    <div class="field">
+      <span>Kohde puhelimessa</span>
+      <div class="seg" id="site"></div>
+      <p class="hint">Puhelin vaihtaa kohteeseen heti. Testaaja voi silti vaihtaa itse.</p>
+    </div>
+    <h2 style="margin-top:28px">Testitilanteet</h2>
+    <div id="scenarios"></div>
+    <p class="hint" id="scenario-hint"></p>
+  </section>
+
+  <section>
+    <h2>Laitteet</h2>
+    <div class="seg" id="tabs" style="max-width:320px"></div>
+    <p class="status" id="site-status" style="margin-top:18px"></p>
+    <div class="toolbar">
+      <label>Muutos tapahtui <input type="number" id="minutes" min="0" step="5" value="0"> min sitten</label>
+    </div>
+    <p class="error" id="error" role="alert"></p>
+    <div id="devices"></div>
+  </section>
+
+  <section id="log">
+    <h2>Tapahtumat</h2>
+    <p class="hint" style="margin:-6px 0 12px">Uusin ylimpänä. Sovellus kirjaa myös avatut laitteet ja näkymän vaihdot.</p>
+    <ol id="events"></ol>
+  </section>
+</main>
+<script>
+const $ = (id) => document.getElementById(id);
+const SOURCES = { app: "Sovellus", ohjaus: "Ohjaus", system: "Järjestelmä" };
+let catalog = null, overview = null, sites = {}, tab = null, lastEventId = 0, busy = false;
+
+async function api(method, path, body) {
+  const res = await fetch(path, {
+    method,
+    headers: body ? { "Content-Type": "application/json" } : undefined,
+    body: body ? JSON.stringify(body) : undefined,
+  });
+  if (!res.ok) {
+    const detail = await res.json().then((j) => j.detail, () => null);
+    throw new Error(typeof detail === "string" ? detail : "Palvelin vastasi virheellä " + res.status);
+  }
+  return res.status === 204 ? null : res.json();
+}
+
+async function act(fn) {
+  $("error").textContent = "";
+  try { await fn(); await refresh(); }
+  catch (e) { $("error").textContent = e.message; }
+}
+
+function seg(el, options, value, onPick) {
+  el.replaceChildren(...options.map(([v, label]) => {
+    const b = document.createElement("button");
+    b.className = "pill" + (v === value ? " on" : "");
+    b.textContent = label;
+    b.setAttribute("aria-pressed", v === value);
+    b.onclick = () => onPick(v);
+    return b;
+  }));
+}
+
+function statusText(s) {
+  if (s.status === "attention") return s.attentionCount === 1 ? "1 asia vaatii huomiota" : s.attentionCount + " asiaa vaatii huomiota";
+  if (s.status === "info") return "Kunnossa, " + s.infoCount + (s.infoCount === 1 ? " valo päällä" : " valoa päällä");
+  return "Kaikki kunnossa";
+}
+
+function ago(iso) {
+  const m = Math.max(0, Math.round((Date.now() - Date.parse(iso)) / 60000));
+  if (m < 60) return m + " min";
+  const h = Math.floor(m / 60);
+  return m % 60 ? h + " h " + (m % 60) + " min" : h + " h";
+}
+
+function render() {
+  const cfg = overview.config;
+  $("controls").checked = cfg.controlsEnabled;
+  $("controls-hint").textContent = cfg.controlsEnabled ? "Sammuta, sulje ja lukitse -painikkeet näkyvät" : "Sovellus näyttää vain tilat";
+  seg($("view"), [["floorplan", "Pohjapiirros"], ["list", "Lista"]], cfg.defaultView,
+    (v) => act(() => api("PATCH", "/api/facilitator/config", { defaultView: v })));
+  seg($("site"), overview.sites.map((s) => [s.id, s.name]), cfg.activeSiteId,
+    (v) => { tab = v; act(() => api("PATCH", "/api/facilitator/config", { activeSiteId: v })); });
+
+  $("scenarios").replaceChildren(...overview.scenarios.map((s) => {
+    const b = document.createElement("button");
+    b.className = "scenario" + (s.id === overview.activeScenarioId ? " on" : "");
+    b.innerHTML = "<b></b><small></small>";
+    b.querySelector("b").textContent = s.name;
+    b.querySelector("small").textContent = s.description;
+    b.onclick = () => { if (s.siteId) tab = s.siteId; act(() => api("POST", "/api/facilitator/scenarios/" + s.id + "/apply")); };
+    return b;
+  }));
+  $("scenario-hint").textContent = overview.activeScenarioId ? "" : "Tiloja on muutettu testitilanteen lataamisen jälkeen.";
+
+  tab = tab && sites[tab] ? tab : cfg.activeSiteId;
+  seg($("tabs"), overview.sites.map((s) => [s.id, s.name]), tab, (v) => { tab = v; render(); });
+  const site = sites[tab];
+  const summary = overview.sites.find((s) => s.id === tab);
+  $("site-status").textContent = statusText(summary);
+  $("site-status").className = "status " + summary.status;
+
+  const groups = catalog.categories.map((cat) => {
+    const items = site.devices.filter((d) => d.category === cat.id);
+    if (!items.length) return [];
+    const title = document.createElement("div");
+    title.className = "group-title";
+    title.textContent = cat.name;
+    return [title, ...items.map(deviceRow)];
+  });
+  $("devices").replaceChildren(...groups.flat());
+}
+
+function deviceRow(d) {
+  const type = catalog.types[d.type];
+  const row = document.createElement("div");
+  const tone = !d.needsAttention ? "" : d.severity === "low" ? "glow" : "alert";
+  row.className = "device " + tone;
+  const room = sites[tab].plan.rooms.find((r) => r.id === d.roomId);
+  row.innerHTML = '<div><div class="name"></div><div class="meta"></div></div><div class="states"></div>';
+  row.querySelector(".name").textContent = d.name;
+  row.querySelector(".meta").textContent = room.name + ", " + d.stateLabel.toLowerCase() + " " + ago(d.changedAt);
+  row.querySelector(".states").append(...Object.entries(type.states).map(([state, label]) => {
+    const b = document.createElement("button");
+    const on = state === d.state;
+    b.className = "pill" + (on ? " on" : "") + (state !== type.safeState ? " alert" : "");
+    b.textContent = label;
+    b.setAttribute("aria-pressed", on);
+    b.setAttribute("aria-label", d.name + ": " + label);
+    b.onclick = () => act(() => api("POST", "/api/facilitator/devices/" + d.id + "/state",
+      { state, minutesAgo: Number($("minutes").value) || 0 }));
+    return b;
+  }));
+  return row;
+}
+
+function addEvents(events) {
+  const list = $("events");
+  for (const e of events) {
+    const li = document.createElement("li");
+    li.className = e.source;
+    const t = new Date(e.at);
+    li.innerHTML = "<time></time><span><span class='src'></span>: <span class='msg'></span></span>";
+    li.querySelector("time").textContent = t.getHours() + "." + String(t.getMinutes()).padStart(2, "0") + "." + String(t.getSeconds()).padStart(2, "0");
+    li.querySelector(".src").textContent = SOURCES[e.source] || e.source;
+    li.querySelector(".msg").textContent = e.message;
+    list.prepend(li);
+    lastEventId = e.id;
+  }
+}
+
+async function refresh() {
+  if (busy) return;
+  busy = true;
+  try {
+    catalog = catalog || await api("GET", "/api/catalog");
+    overview = await api("GET", "/api/facilitator");
+    const loaded = await Promise.all(overview.sites.map((s) => api("GET", "/api/sites/" + s.id)));
+    sites = Object.fromEntries(loaded.map((s) => [s.id, s]));
+    const events = await api("GET", "/api/facilitator/events?afterId=" + lastEventId);
+    addEvents(events);
+    render();
+    $("conn").className = "conn";
+    $("conn").lastChild.textContent = "Yhteys palvelimeen";
+  } catch (e) {
+    $("conn").className = "conn down";
+    $("conn").lastChild.textContent = "Ei yhteyttä palvelimeen";
+  } finally {
+    busy = false;
+  }
+}
+
+$("controls").onchange = (e) => act(() => api("PATCH", "/api/facilitator/config", { controlsEnabled: e.target.checked }));
+$("reset").onclick = () => {
+  if (confirm("Nollataanko testi? Kaikki tilat ja tapahtumaloki palautuvat alkuun.")) {
+    $("events").replaceChildren();
+    tab = null;
+    act(() => api("POST", "/api/facilitator/reset"));
+  }
+};
+refresh();
+setInterval(refresh, 1500);
+</script>
+</body>
+</html>

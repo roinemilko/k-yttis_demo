@@ -1,0 +1,65 @@
+{
+  "initialScenario": "aamukiire",
+  "scenarios": [
+    {
+      "id": "kaikki-kunnossa",
+      "name": "Kaikki kunnossa",
+      "description": "Kaikki laitteet turvallisessa tilassa.",
+      "siteId": "koti",
+      "devices": {}
+    },
+    {
+      "id": "hella-unohtui",
+      "name": "Liesi unohtui päälle",
+      "description": "Liesi on ollut päällä 40 minuuttia, muuten kaikki kunnossa.",
+      "siteId": "koti",
+      "devices": {
+        "koti-liesi": { "state": "on", "minutesAgo": 40 }
+      }
+    },
+    {
+      "id": "aamukiire",
+      "name": "Aamukiire",
+      "description": "Kahvinkeitin päällä, pesukoneen hana auki ja pari valoa päällä.",
+      "siteId": "koti",
+      "devices": {
+        "koti-kahvinkeitin": { "state": "on", "minutesAgo": 25 },
+        "koti-pesukone-hana": { "state": "open", "minutesAgo": 70 },
+        "koti-valo-k": { "state": "on", "minutesAgo": 50 },
+        "koti-valo-et": { "state": "on", "minutesAgo": 5 }
+      }
+    },
+    {
+      "id": "vain-valot",
+      "name": "Vain valoja päällä",
+      "description": "Kolme valoa päällä. Muut laitteet kunnossa.",
+      "siteId": "koti",
+      "devices": {
+        "koti-valo-oh": { "state": "on", "minutesAgo": 130 },
+        "koti-valo-k": { "state": "on", "minutesAgo": 45 },
+        "koti-valo-mh": { "state": "on", "minutesAgo": 300 }
+      }
+    },
+    {
+      "id": "ovet-auki",
+      "name": "Ovet auki",
+      "description": "Terassin ovi lukitsematta ja autotallin ovi auki.",
+      "siteId": "koti",
+      "devices": {
+        "koti-terassin-ovi": { "state": "unlocked", "minutesAgo": 180 },
+        "koti-autotallin-ovi": { "state": "open", "minutesAgo": 12 }
+      }
+    },
+    {
+      "id": "mokilta-lahto",
+      "name": "Mökiltä lähtö",
+      "description": "Mökillä kiuas ja vesipumppu päällä sekä tuvan valot.",
+      "siteId": "mokki",
+      "devices": {
+        "mokki-kiuas": { "state": "on", "minutesAgo": 95 },
+        "mokki-pumppu": { "state": "on", "minutesAgo": 300 },
+        "mokki-valo-tupa": { "state": "on", "minutesAgo": 120 }
+      }
+    }
+  ]
+}
