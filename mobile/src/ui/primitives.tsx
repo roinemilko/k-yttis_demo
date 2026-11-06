@@ -3,6 +3,7 @@ import type { ComponentProps, ReactNode } from 'react';
 import {
   ActivityIndicator,
   Modal,
+  Platform,
   Pressable,
   StyleSheet,
   Text,
@@ -123,6 +124,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: space.gutter + 4,
     paddingTop: space.md,
     maxHeight: '88%',
+    // Selaimessa sovellus on puhelimen levyinen (public/index.html), joten laatikkokin pysyy sen levyisenä.
+    ...Platform.select({ web: { width: '100%', maxWidth: 480, alignSelf: 'center' } }),
   },
   handle: { width: 40, height: 4, borderRadius: 2, alignSelf: 'center', marginBottom: space.lg },
 });

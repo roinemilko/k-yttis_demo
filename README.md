@@ -27,6 +27,22 @@ npx expo start --tunnel
 
 Node.js 24 on asennettu kotihakemistoon (`~/.local/opt`, komennot `~/.local/bin`). Tyyppitarkistus: `npx tsc --noEmit`, lint: `npx eslint .`.
 
+## Selainversio (Vercel)
+
+Sovelluksesta saa selaimessa toimivan version, jonka voi jakaa linkkinä. Se käyttää sovelluksen omaa dataa samoin kuin Expo Go ilman palvelinta. Laajalla näytöllä sovellus pysyy puhelimen levyisenä keskellä.
+
+Paikallinen kokeilu:
+
+```bash
+cd mobile
+npx expo export --platform web   # tulos kansioon mobile/dist
+python3 -m http.server 4173 -d dist
+```
+
+Julkaisu: tuo repo Verceliin (Add New → Project) ja jätä Root Directory tyhjäksi eli repon juureksi. Asetukset luetaan juuren `vercel.json`-tiedostosta, eikä muuta tarvitse muuttaa. Jokainen push `main`-haaraan julkaisee uuden version. Vaihtoehtoisesti komentoriviltä: `npx vercel` (esikatselu) tai `npx vercel --prod`.
+
+**Rajoitus:** Vercelin sivu on HTTPS-osoitteessa, joten selain ei päästä sitä läppärin `http://…:8000`-backendiin (mixed content). Testinohjaus (`/ohjaus`) toimii siis vain Expo Go -sovelluksen kanssa tai kun selainversiota ajetaan omalta koneelta.
+
 ## Testitilanteen ohjaus palvelimen kautta
 
 Kun backend on käynnissä, ohjaaja voi vaihtaa testitilannetta läppäriltä testaajan puhelimeen koskematta.

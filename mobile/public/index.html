@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="fi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="theme-color" content="#F2F4F3" />
+    <title>Kotipaneeli</title>
+    <style id="expo-reset">
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        overflow: hidden;
+        background: #F2F4F3;
+      }
+      @media (prefers-color-scheme: dark) {
+        body {
+          background: #121718;
+        }
+      }
+      /* Sovellus on tehty puhelimelle: leveällä näytöllä se pysyy puhelimen levyisenä keskellä. */
+      #root {
+        display: flex;
+        height: 100%;
+        flex: 1;
+        max-width: 480px;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>Sovellus vaatii JavaScriptin.</noscript>
+    <div id="root"></div>
+  </body>
+</html>
